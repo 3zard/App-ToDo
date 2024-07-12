@@ -1,5 +1,11 @@
+const taskList = document.getElementById("taskList")
 let array = [];
 function add() {
+  const inputText = document.getElementById("inputValue").value;
+  if (inputText == "") {
+    alert("Please enter task name!")
+    return
+  }
   const li = document.createElement("li");
   li.className = "not-done";
 
@@ -7,7 +13,6 @@ function add() {
   checkbox.type = "checkbox";
 
   const text = document.createElement("span");
-  const inputText = document.getElementById("inputValue").value;
   text.textContent = inputText;
 
   const editButton = document.createElement("button");
@@ -26,15 +31,40 @@ function add() {
   li.appendChild(text);
   li.appendChild(editButton);
   li.appendChild(deleteButton);
-
-  const taskList = document.getElementById("taskList");
   taskList.appendChild(li);
   array.push(li);
-  console.log(array);
+
+  document.getElementById("inputValue").value = ""
 }
 
-function editTask(e) {}
+function editTask(e) {
+  const parentElement = e.target.parentElement
+  
+  const editText = document.createElement("input")
+  editText.type = "text"
 
-function deleteTask() {}
+  const saveButton = document.createElement("button");
+  saveButton.className = "button";
+  saveButton.id = "save__button";
+  saveButton.textContent = "Save";
+  // replace
+  parentElement.replaceChild(editText, parentElement.childNodes[1]);
+
+  // hide
+  parentElement.childNodes[0].style.display = "none"
+  parentElement.childNodes[2].style.display = "none"
+  parentElement.childNodes[3].style.display = "none"
+
+  parentElement.appendChild(saveButton)
+
+  // code .... 
+
+}
+
+function deleteTask(e) {
+  const parentElement = e.target.parentElement
+  taskList.removeChild(parentElement)
+  array.splice(array.indexOf(parentElement),1)
+}
 
 
